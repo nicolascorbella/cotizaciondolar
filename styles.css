@@ -23,7 +23,7 @@ body {
     width: 90%;
     max-width: 1200px;
   }
-  
+
   .caja {
     background-color: #fff;
     padding: 20px;
@@ -57,3 +57,37 @@ body {
     color: red; /* Color rojo para Venta */
     font-weight: bold;
   }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+  }
+  
+  header {
+    background-color: #003366;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .selector {
+    margin: 10px;
+  }
+  
+  select {
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  p#resultado {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+#brecha{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+gap: 2%;
+  min-height: 19em;
+}
