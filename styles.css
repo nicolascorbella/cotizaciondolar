@@ -2,92 +2,134 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-  }
-  
-  h1 {
-    margin: 20px 0;
+    background: linear-gradient(270deg, #ece3e3, #aee0e2, #08ffff91);
+    background-size: 600% 600%;
+    animation: gradientAnimation 8s ease infinite;
+}
+
+/* Animación del fondo */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+h1 {
+    margin: 50px 0;
     font-size: 2rem;
-  }
-  
-  #container {
+    color: rgb(121, 67, 23); /* Contraste con el fondo */
+    z-index: 1; /* Asegura que esté encima del fondo */
+}
+
+#container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
     width: 90%;
     max-width: 1200px;
-  }
+    z-index: 1; /* Encima del fondo */
+}
 
-  .caja {
+.caja, .cajabrecha {
     background-color: #fff;
     padding: 20px;
     border: 2px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-  
-  .caja:hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.caja:hover {
     transform: scale(1.05);
-  }
-  
-  .caja h2 {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transition: 500ms;
+}
+
+.caja h2, .cajabrecha h2 {
     margin: 10px 0;
     font-size: 1.2rem;
     color: #444;
-  }
-  
-  .caja p {
+}
+
+.caja p, .cajabrecha p {
     font-size: 1rem;
     color: #666;
-  }
-  /* Aplicar color a Compra y Venta */
-.caja p:first-of-type {
+}
+
+/* Aplicar color a Compra y Venta */
+.caja p:first-of-type, .cajabrecha p:first-of-type  {
     color: green; /* Color verde para Compra */
     font-weight: bold;
-  }
-  
-  .caja p:nth-of-type(2) {
+}
+
+.caja p:nth-of-type(2), .cajabrecha p:nth-of-type(2) {
     color: red; /* Color rojo para Venta */
     font-weight: bold;
-  }
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f5f5f5;
-  }
-  
-  header {
+}
+.cajabrecha {
+  max-width: 90%;
+  margin: 0 20px; /* Centrar horizontalmente */
+  display: flex; /* Asegura el uso de Flexbox */
+  flex-direction: column; /* Opcional, por si deseas alinear elementos verticalmente */
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.container {
+  display: flex; /* Asegura el uso de Flexbox */
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en varias filas */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 5em auto; /* Centrar horizontalmente */
+  max-width: 100%; /* Asegura que no exceda el ancho de la pantalla */
+}
+.cerrar{
+  border-radius: 8px;
+  box-shadow: #00000070 5px 2px 8px;
+margin-left: 94%;
+color: #33333365;
+border: none;
+}
+header {
     background-color: #003366;
     color: white;
     padding: 20px;
     text-align: center;
-  }
-  
-  .selector {
+    z-index: 1;
+}
+
+.selector {
     margin: 10px;
-  }
-  
-  select {
+}
+
+select {
     padding: 5px;
     font-size: 16px;
-  }
-  
-  p#resultado {
+}
+
+p#resultado {
     font-size: 18px;
     margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .container{
+    flex-direction: column;
   }
-#brecha{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-gap: 2%;
-  min-height: 19em;
+.cajabrecha{
+  margin-top: 1em;
+}
 }
