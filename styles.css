@@ -7,7 +7,7 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: linear-gradient(270deg, #ece3e3, #aee0e2, #08ffff91);
+    background: linear-gradient(270deg, #ece3e33d, rgba(255, 0, 0, 0.527), rgba(0, 128, 0, 0.322));
     background-size: 600% 600%;
     animation: gradientAnimation 8s ease infinite;
 }
@@ -26,10 +26,16 @@ body {
 }
 
 h1 {
-    margin: 50px 0;
-    font-size: 2rem;
-    color: rgb(121, 67, 23); /* Contraste con el fondo */
-    z-index: 1; /* Asegura que esté encima del fondo */
+  margin: 50px 0;
+  font-size: 3rem;
+  color: rgb(255, 255, 255); /* Contraste con el fondo */
+  z-index: 1; /* Asegura que esté encima del fondo */
+  font-weight: 800;
+  text-shadow: 
+      1px 1px 0px black, 
+      -1px -1px 0px black,  
+      1px -1px 0px black, 
+      -1px 1px 0px black; /* Simula un borde alrededor del texto */
 }
 
 #container {
