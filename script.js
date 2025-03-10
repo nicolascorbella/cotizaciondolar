@@ -5,15 +5,15 @@ const brecha = document.getElementById('brecha');
 const eliminados = new Set(); // Almacena los identificadores de cajas eliminadas
 let isHovering = false; // Flag para evitar conflictos con hover
 
-// Función para obtener el precio de venta del dólar cripto desde Binance
+// Función para obtener el precio del dólar cripto desde Binance
 async function obtenerDolarCripto() {
   try {
     const respuesta = await fetch(binanceUrl);
     const data = await respuesta.json();
-    return parseFloat(data.price) || 'N/A';
+    return parseFloat(data.price); // Devuelve el precio en número
   } catch (error) {
-    console.error('Error al obtener datos de Binance:', error);
-    return 'N/A';
+    console.error('Error al obtener el dólar cripto desde Binance:', error);
+    return null; // Retorna null en caso de error
   }
 }
 
@@ -22,17 +22,20 @@ async function cargarDatos() {
   if (isHovering) return; // Evita actualizar mientras se está en hover
 
   try {
-    const respuesta = await fetch(apiUrl);
-    const data = await respuesta.json();
+    const [datos, dolarCripto] = await Promise.all([
+      fetch(apiUrl).then(res => res.json()),
+      obtenerDolarCripto(),
+    ]);
 
-    // Obtener el dólar cripto desde Binance
-    data.cripto = data.cripto || {};
-    data.cripto.usdt = data.cripto.usdt || {};
-    data.cripto.usdt.ask = await obtenerDolarCripto();
+    // Sobrescribir el valor del dólar cripto con el de Binance
+    if (dolarCripto) {
+      datos.cripto = { usdt: { bid: dolarCripto, ask: dolarCripto } };
+    }
 
     container.innerHTML = ''; // Limpiar el contenido previo antes de actualizar
-    mostrarDatos(data);
-    calcularBrecha(data); // Calcular y mostrar la brecha
+    mostrarDatos(datos);
+    calcularBrecha(datos); // Calcular y mostrar la brecha
+
   } catch (error) {
     console.error('Error al cargar la API:', error);
     container.innerHTML = '<p>Error al cargar los datos. Intente nuevamente más tarde.</p>';
@@ -80,7 +83,9 @@ function crearCaja(titulo, datos, idCaja) {
   const valorCompra = datos?.bid ?? datos?.price ?? 'N/A';
   const valorVenta = datos?.ask ?? 'N/A';
   const variacion = datos?.variation ?? 'N/A';
-  const timestamp = datos?.timestamp ? new Date(datos.timestamp * 1000).toLocaleString() : 'N/A';
+  const timestamp = datos?.timestamp
+    ? new Date(datos.timestamp * 1000).toLocaleString()
+    : 'N/A';
 
   const caja = document.createElement('div');
   caja.className = 'caja';
@@ -107,7 +112,44 @@ function crearCaja(titulo, datos, idCaja) {
   return caja;
 }
 
-// Llamar a `cargarDatos` cada 1 segundo
+// Función para calcular y mostrar la brecha
+function calcularBrecha(datos) {
+  const usdt = datos.cripto?.usdt?.bid || null;
+  const al30ci = datos.mep?.al30?.ci?.price || null;
+  const al3024hs = datos.mep?.al30?.["24hs"]?.price || null;
+
+  brecha.innerHTML = '';
+
+  if (usdt && al30ci) {
+    const brechaPorcentaje = ((usdt - al30ci) / al30ci) * 100;
+    brecha.innerHTML += `
+      <div class="cajabrecha">
+        <h2>Brecha USDT vs AL30CI</h2>
+        <p><strong>USDT (Compra):</strong> ${usdt.toFixed(2)}</p>
+        <p><strong>AL30CI:</strong> ${al30ci.toFixed(2)}</p>
+        <p><strong>Brecha:</strong> ${brechaPorcentaje.toFixed(2)}%</p>
+      </div>
+    `;
+  } else {
+    brecha.innerHTML += '<p>No se pudo calcular la brecha USDT vs AL30CI. Datos insuficientes.</p>';
+  }
+
+  if (usdt && al3024hs) {
+    const brechaPorcentaje = ((usdt - al3024hs) / al3024hs) * 100;
+    brecha.innerHTML += `
+      <div class="cajabrecha">
+        <h2>Brecha USDT vs AL30 24h</h2>
+        <p><strong>USDT (Compra):</strong> ${usdt.toFixed(2)}</p>
+        <p><strong>AL30 24h:</strong> ${al3024hs.toFixed(2)}</p>
+        <p><strong>Brecha:</strong> ${brechaPorcentaje.toFixed(2)}%</p>
+      </div>
+    `;
+  } else {
+    brecha.innerHTML += '<p>No se pudo calcular la brecha USDT vs AL30 24h. Datos insuficientes.</p>';
+  }
+}
+
+// Llamar a cargarDatos cada 1 segundo
 setInterval(cargarDatos, 1000);
 
 // Cargar datos inicialmente
