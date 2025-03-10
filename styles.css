@@ -3,14 +3,14 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    color: #fff;
+    color: #e0e0e0;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: linear-gradient(135deg, #1b1b1b, #141e30, #243b55);
+    background: linear-gradient(135deg, #10141a, #1b2735);
     background-size: 400% 400%;
-    animation: gradientAnimation 10s ease infinite;
+    animation: gradientAnimation 15s ease infinite;
 }
 
 /* Animación del fondo */
@@ -20,16 +20,13 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* --- ENCABEZADO --- */
+/* --- ENCABEZADO PRINCIPAL --- */
 h1 {
-    margin: 50px 0;
-    font-size: 3rem;
-    font-weight: 800;
-    color: #ffd700; /* Dorado financiero */
-    text-shadow: 
-        0px 0px 10px rgba(255, 215, 0, 0.8), 
-        0px 0px 20px rgba(255, 215, 0, 0.5), 
-        2px 2px 4px black;
+    margin: 40px 0;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #d4af37; /* Dorado sutil */
+    text-shadow: 0px 2px 8px rgba(212, 175, 55, 0.4);
 }
 
 /* --- CONTENEDOR GENERAL --- */
@@ -42,91 +39,90 @@ h1 {
     max-width: 1200px;
 }
 
-/* --- TARJETAS DE DATOS (GLASSMORPHISM) --- */
+/* --- TARJETAS DE DATOS (ESTILO FINANCIERO PROFESIONAL) --- */
 .caja, .cajabrecha {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    padding: 20px;
+    background: rgba(35, 39, 45, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 18px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* --- EFECTO HOVER EN TARJETAS --- */
 .caja:hover, .cajabrecha:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 25px rgba(255, 215, 0, 0.3);
+    transform: scale(1.03);
+    box-shadow: 0 8px 18px rgba(212, 175, 55, 0.2);
 }
 
 /* --- TÍTULOS DENTRO DE LAS TARJETAS --- */
 .caja h2, .cajabrecha h2 {
     margin: 10px 0;
-    font-size: 1.3rem;
-    color: #ffd700;
+    font-size: 1.2rem;
+    color: #d4af37;
 }
 
 /* --- TEXTOS DENTRO DE LAS TARJETAS --- */
 .caja p, .cajabrecha p {
-    font-size: 1rem;
-    color: #fff;
+    font-size: 0.95rem;
+    color: #ddd;
     font-weight: 500;
 }
 
-/* --- DESTACAR "COMPRA" Y "VENTA" CON NEÓN --- */
+/* --- DESTACAR "COMPRA" Y "VENTA" CON COLORES SUAVES --- */
 .caja p:first-of-type, .cajabrecha p:first-of-type {
-    color: #00ff00;
+    color: #66bb6a; /* Verde más suave */
     font-weight: bold;
-    text-shadow: 0px 0px 10px rgba(0, 255, 0, 0.8);
 }
 
 .caja p:nth-of-type(2), .cajabrecha p:nth-of-type(2) {
-    color: #ff4444;
+    color: #ef5350; /* Rojo menos saturado */
     font-weight: bold;
-    text-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8);
 }
 
-/* --- BOTÓN DE CIERRE CON ESTILO --- */
+/* --- BOTÓN DE CIERRE CON ESTILO SUAVE --- */
 .cerrar {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.2);
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    color: white;
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 8px;
+    color: #bbb;
+    padding: 5px 8px;
+    font-size: 14px;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
 .cerrar:hover {
-    background: rgba(255, 0, 0, 0.6);
-    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8);
+    background: rgba(255, 0, 0, 0.5);
+    color: white;
 }
 
 /* --- ENCABEZADO PRINCIPAL --- */
 header {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(20, 25, 30, 0.9);
     color: white;
-    padding: 20px;
+    padding: 18px;
     text-align: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 /* --- SELECTOR PERSONALIZADO --- */
 .selector select {
     padding: 8px;
     font-size: 16px;
-    border: 2px solid #ffd700;
+    border: 2px solid #d4af37;
     border-radius: 5px;
-    background: #1b1b1b;
+    background: #1b1f24;
     color: white;
     transition: 0.3s;
 }
 
 .selector select:hover {
-    background: #333;
+    background: #2b3138;
 }
 
 /* --- ESTILOS RESPONSIVOS --- */
