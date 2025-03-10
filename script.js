@@ -17,7 +17,7 @@ async function obtenerDolarCripto() {
         asset: 'USDT',
         fiat: 'ARS',
         tradeType: 'SELL', // Venta de USDT
-        payTypes: [], // Puedes agregar métodos de pago específicos
+        payTypes: [],
         page: 1,
         rows: 1, // Solo queremos la mejor oferta
         publisherType: null
@@ -27,7 +27,7 @@ async function obtenerDolarCripto() {
     const data = await respuesta.json();
 
     if (data && data.data.length > 0) {
-      return parseFloat(data.data[0].adv.price); // Devuelve el precio de venta del USDT en ARS
+      return parseFloat(data.data[0].adv.price);
     } else {
       console.warn('No se encontraron ofertas de venta de USDT en Binance P2P.');
       return null;
@@ -46,17 +46,16 @@ async function cargarDatos() {
   try {
     const [datos, dolarCripto] = await Promise.all([
       fetch(apiUrl).then(res => res.json()),
-      obtenerDolarCripto(), // Obtiene el precio de venta desde Binance P2P
+      obtenerDolarCripto(),
     ]);
 
-    // Sobrescribir el valor del dólar cripto con el de Binance P2P
     if (dolarCripto) {
       datos.cripto = { usdt: { ask: dolarCripto } };
     }
 
-    container.innerHTML = ''; // Limpiar el contenido previo antes de actualizar
+    container.innerHTML = ''; // Limpiar contenido antes de actualizar
     mostrarDatos(datos);
-    calcularBrecha(datos); // Calcular y mostrar la brecha
+    calcularBrecha(datos);
 
   } catch (error) {
     console.error('Error al cargar la API:', error);
@@ -65,7 +64,7 @@ async function cargarDatos() {
   }
 }
 
-// Función para mostrar los datos en cajas
+// Función para mostrar los datos en tarjetas
 function mostrarDatos(datos) {
   for (const tipo in datos) {
     if (tipo === 'cripto' || tipo === 'mep' || tipo === 'ccl') {
@@ -100,7 +99,7 @@ function mostrarDatos(datos) {
   }
 }
 
-// Función para crear una caja de datos
+// Función para crear una tarjeta de datos
 function crearCaja(titulo, datos, idCaja) {
   const valorCompra = datos?.bid ?? datos?.price ?? 'N/A';
   const valorVenta = datos?.ask ?? 'N/A';
@@ -140,20 +139,18 @@ function calcularBrecha(datos) {
   const al30ci = datos.mep?.al30?.ci?.price || null;
   const al3024hs = datos.mep?.al30?.["24hs"]?.price || null;
 
-  brecha.innerHTML = '';
+  brecha.innerHTML = ''; // Se limpia antes de actualizar
 
   if (usdt && al30ci) {
     const brechaPorcentaje = ((usdt - al30ci) / al30ci) * 100;
-   
+    brecha.innerHTML += `
       <div class="cajabrecha">
         <h2>Brecha USDT vs AL30CI</h2>
-        <p><strong>USDT (Venta):</strong> ${usdt.toFixed(2)}</p>
-        <p><strong>AL30CI:</strong> ${al30ci.toFixed(2)}</p>
+        <p><strong>USDT (Venta):</strong> <span style="color:green;">${usdt.toFixed(2)}</span></p>
+        <p><strong>AL30CI:</strong> <span style="color:red;">${al30ci.toFixed(2)}</span></p>
         <p><strong>Brecha:</strong> ${brechaPorcentaje.toFixed(2)}%</p>
       </div>
     `;
-  } else {
-    brecha.innerHTML += '<p>No se pudo calcular la brecha USDT vs AL30CI. Datos insuficientes.</p>';
   }
 
   if (usdt && al3024hs) {
@@ -161,13 +158,11 @@ function calcularBrecha(datos) {
     brecha.innerHTML += `
       <div class="cajabrecha">
         <h2>Brecha USDT vs AL30 24h</h2>
-        <p><strong>USDT (Venta):</strong> ${usdt.toFixed(2)}</p>
-        <p><strong>AL30 24h:</strong> ${al3024hs.toFixed(2)}</p>
+        <p><strong>USDT (Venta):</strong> <span style="color:green;">${usdt.toFixed(2)}</span></p>
+        <p><strong>AL30 24h:</strong> <span style="color:red;">${al3024hs.toFixed(2)}</span></p>
         <p><strong>Brecha:</strong> ${brechaPorcentaje.toFixed(2)}%</p>
       </div>
     `;
-  } else {
-    brecha.innerHTML += '<p>No se pudo calcular la brecha USDT vs AL30 24h. Datos insuficientes.</p>';
   }
 }
 
