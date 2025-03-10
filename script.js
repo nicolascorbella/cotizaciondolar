@@ -144,7 +144,7 @@ function calcularBrecha(datos) {
 
   if (usdt && al30ci) {
     const brechaPorcentaje = ((usdt - al30ci) / al30ci) * 100;
-    brecha.innerHTML += `https://github.com/nicolascorbella/cotizaciondolar/blob/main/script.js
+   
       <div class="cajabrecha">
         <h2>Brecha USDT vs AL30CI</h2>
         <p><strong>USDT (Venta):</strong> ${usdt.toFixed(2)}</p>
