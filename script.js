@@ -4,6 +4,7 @@ const container = document.getElementById('container');
 const brecha = document.getElementById('brecha');
 const eliminados = new Set(); // Almacena los identificadores de cajas eliminadas
 let isHovering = false; // Flag para evitar conflictos con hover
+let dolarCripto = null; // Variable global para almacenar el valor del dólar cripto
 
 // Función para obtener el precio del dólar cripto desde Binance P2P
 async function obtenerDolarCripto() {
@@ -16,10 +17,10 @@ async function obtenerDolarCripto() {
       body: JSON.stringify({
         asset: 'USDT',
         fiat: 'ARS',
-        tradeType: 'SELL', // Venta de USDT
+        tradeType: 'SELL',
         payTypes: [],
         page: 1,
-        rows: 1, // Solo queremos la mejor oferta
+        rows: 1,
         publisherType: null
       })
     });
@@ -27,15 +28,14 @@ async function obtenerDolarCripto() {
     const data = await respuesta.json();
 
     if (data && data.data.length > 0) {
-      return parseFloat(data.data[0].adv.price);
+      dolarCripto = parseFloat(data.data[0].adv.price);
     } else {
       console.warn('No se encontraron ofertas de venta de USDT en Binance P2P.');
-      return null;
+      dolarCripto = null;
     }
-
   } catch (error) {
     console.error('Error al obtener el precio de venta de USDT en Binance P2P:', error);
-    return null;
+    dolarCripto = null;
   }
 }
 
@@ -44,11 +44,8 @@ async function cargarDatos() {
   if (isHovering) return; // Evita actualizar mientras se está en hover
 
   try {
-    const [datos, dolarCripto] = await Promise.all([
-      fetch(apiUrl).then(res => res.json()),
-      obtenerDolarCripto(),
-    ]);
-
+    const datos = await fetch(apiUrl).then(res => res.json());
+    
     if (dolarCripto) {
       datos.cripto = { usdt: { ask: dolarCripto } };
     }
@@ -56,7 +53,6 @@ async function cargarDatos() {
     container.innerHTML = ''; // Limpiar contenido antes de actualizar
     mostrarDatos(datos);
     calcularBrecha(datos);
-
   } catch (error) {
     console.error('Error al cargar la API:', error);
     container.innerHTML = '<p>Error al cargar los datos. Intente nuevamente más tarde.</p>';
@@ -139,7 +135,7 @@ function calcularBrecha(datos) {
   const al30ci = datos.mep?.al30?.ci?.price || null;
   const al3024hs = datos.mep?.al30?.["24hs"]?.price || null;
 
-  brecha.innerHTML = ''; // Se limpia antes de actualizar
+  brecha.innerHTML = '';
 
   if (usdt && al30ci) {
     const brechaPorcentaje = ((usdt - al30ci) / al30ci) * 100;
@@ -152,22 +148,13 @@ function calcularBrecha(datos) {
       </div>
     `;
   }
-
-  if (usdt && al3024hs) {
-    const brechaPorcentaje = ((usdt - al3024hs) / al3024hs) * 100;
-    brecha.innerHTML += `
-      <div class="cajabrecha">
-        <h2>Brecha USDT vs AL30 24h</h2>
-        <p><strong>USDT (Venta):</strong> <span style="color:green;">${usdt.toFixed(2)}</span></p>
-        <p><strong>AL30 24h:</strong> <span style="color:red;">${al3024hs.toFixed(2)}</span></p>
-        <p><strong>Brecha:</strong> ${brechaPorcentaje.toFixed(2)}%</p>
-      </div>
-    `;
-  }
 }
 
-// Llamar a cargarDatos cada 1 segundo
+// Actualizar el valor del dólar cripto cada 5 segundos
+setInterval(obtenerDolarCripto, 5000);
+// Cargar los datos cada 1 segundo
 setInterval(cargarDatos, 1000);
 
 // Cargar datos inicialmente
+obtenerDolarCripto();
 cargarDatos();
