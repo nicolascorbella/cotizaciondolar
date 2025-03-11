@@ -142,7 +142,7 @@ function calcularBrecha(datos) {
       <div class="cajabrecha">
         <h2>Brecha USDT vs AL30 (24h)</h2>
         <p><strong>USDT (Venta):</strong> <span style="color:green;">${usdt.toFixed(2)}</span></p>
-        <p><strong>AL30 (24h):</strong> <span style="color:blue;">${al3024hs.toFixed(2)}</span></p>
+        <p><strong>AL30 (24h):</strong> <span style="color:red;">${al3024hs.toFixed(2)}</span></p>
         <p><strong>Brecha:</strong> ${brechaPorcentaje.toFixed(2)}%</p>
       </div>
     `;
