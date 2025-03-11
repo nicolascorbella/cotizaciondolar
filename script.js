@@ -132,23 +132,23 @@ function crearCaja(titulo, datos, idCaja) {
 // Función para calcular y mostrar la brecha
 function calcularBrecha(datos) {
   const usdt = datos.cripto?.usdt?.ask || null;
-  const al30ci = datos.mep?.al30?.ci?.price || null;
-  const al3024hs = datos.mep?.al30?.["24hs"]?.price || null;
+  const al3024hs = datos.mep?.al30?.["24hs"]?.price || null; // Tomar el precio de AL30 hace 24 horas
 
   brecha.innerHTML = '';
 
-  if (usdt && al30ci) {
-    const brechaPorcentaje = ((usdt - al30ci) / al30ci) * 100;
+  if (usdt && al3024hs) {
+    const brechaPorcentaje = ((usdt - al3024hs) / al3024hs) * 100;
     brecha.innerHTML += `
       <div class="cajabrecha">
-        <h2>Brecha USDT vs AL30CI</h2>
+        <h2>Brecha USDT vs AL30 (24h)</h2>
         <p><strong>USDT (Venta):</strong> <span style="color:green;">${usdt.toFixed(2)}</span></p>
-        <p><strong>AL30CI:</strong> <span style="color:red;">${al30ci.toFixed(2)}</span></p>
+        <p><strong>AL30 (24h):</strong> <span style="color:blue;">${al3024hs.toFixed(2)}</span></p>
         <p><strong>Brecha:</strong> ${brechaPorcentaje.toFixed(2)}%</p>
       </div>
     `;
   }
 }
+
 
 // Actualizar el valor del dólar cripto cada 5 segundos
 setInterval(obtenerDolarCripto, 5000);
