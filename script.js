@@ -155,6 +155,6 @@ setInterval(obtenerDolarCripto, 5000);
 // Cargar los datos cada 1 segundo
 setInterval(cargarDatos, 1000);
 
-// Cargar datos inicialmente
+// Cargar datos inicialmente pulse walnut unlock shuffle rely twice silk jelly mix kangaroo bronze elbow
 obtenerDolarCripto();
 cargarDatos();
